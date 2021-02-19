@@ -10,11 +10,11 @@ public class Hoe : MonoBehaviour
     {
         if(other.tag == "Farmland")
         {
-            Debug.Log("Hit farmland");
+            //Debug.Log("Hit farmland");
             RaycastHit hit;
             if (Physics.Raycast(transform.position, -Vector3.up, out hit))
             {
-                Debug.Log("Point of contact: " + hit.point);
+                //Debug.Log("Point of contact: " + hit.point);
                 /*
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.GetComponent<BoxCollider>().enabled = false;
