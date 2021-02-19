@@ -5,11 +5,12 @@ using Valve.VR.InteractionSystem;
 
 public class Hole : MonoBehaviour
 {
-    public GameObject PlantPrefab;
+    private GameObject PlantPrefab;
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Seed" && !other.gameObject.GetComponent<Seed>().isHeld)
         {
+            PlantPrefab = other.gameObject.GetComponent<Seed>().PlantPrefab;
             Debug.Log("Seed entered hole");
             Transform holeLocation = gameObject.transform;
             Debug.Log(holeLocation.position);

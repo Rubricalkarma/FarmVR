@@ -6,6 +6,7 @@ public class Hoe : MonoBehaviour
 {
 
     public GameObject HolePrefab;
+    public AudioSource TillingSound;
     public void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Farmland")
@@ -14,15 +15,9 @@ public class Hoe : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, -Vector3.up, out hit))
             {
-                //Debug.Log("Point of contact: " + hit.point);
-                /*
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.GetComponent<BoxCollider>().enabled = false;
-                cube.transform.localScale = new Vector3(.5f, .5f, .5f);
-                cube.transform.position = hit.point;
-                */
-
+                TillingSound.Play();
                 GameObject hole = Instantiate(HolePrefab, hit.point, Quaternion.identity);
+
             }
         }
     }
