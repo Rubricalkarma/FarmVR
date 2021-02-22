@@ -22,8 +22,12 @@ public class Plant : MonoBehaviour
         IsGrown = false;
         IsBeingWatered = false;
 
-        ProductLocations.Add(new Vector3(0, 0, .06f));
-        ProductLocations.Add(new Vector3(.04f, 0, .06f));
+        ProductLocations.Add(new Vector3(0, 0, .057f));
+        ProductLocations.Add(new Vector3(.04f, 0, .057f));
+        ProductLocations.Add(new Vector3(0, -0.02f, -0.0685f));
+        ProductLocations.Add(new Vector3(0.0264f, -0.0518f, -0.0685f));
+        ProductLocations.Add(new Vector3(0.0412f, 0.0208f, -0.0685f));
+
 
         GrowProduct();
     }
