@@ -12,6 +12,7 @@ public class Plant : MonoBehaviour
     public bool IsBeingWatered;
     public GameObject ProductPrefab;
     public List<Vector3> ProductLocations;
+    public List<GameObject> Products;
 
 
     public void Start()
@@ -49,8 +50,18 @@ public class Plant : MonoBehaviour
     {
         foreach (Vector3 location in ProductLocations) {
             var product = Instantiate(ProductPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            Products.Add(product);
+            product.GetComponentInChildren<Rigidbody>().isKinematic = true;
             product.transform.parent = gameObject.transform;
             product.transform.localPosition = location;
+        }
+    }
+
+    public void DropProducts()
+    {
+        foreach(GameObject product in Products)
+        {
+            product.GetComponentInChildren<Rigidbody>().isKinematic = false;
         }
     }
 
