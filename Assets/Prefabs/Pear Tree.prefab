@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4319028033289916336}
   - component: {fileID: 78769936805054509}
   m_Layer: 0
-  m_Name: Apple Tree
+  m_Name: Pear Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,16 +129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61158041274d815489ed9a9e859e4d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   GrowthStage: 1
   MaxGrowthStage: 15
   GrowthRate: 0.007
   IsGrown: 0
   IsBeingWatered: 0
   HasProducts: 0
-  Cooldown: 10
+  Cooldown: 15
   HadFirstGrow: 0
-  ProductPrefab: {fileID: 1723118364289305467, guid: 3a1d937db23d07c4da4e0b812166d40f,
+  ProductPrefab: {fileID: 1723118364289305467, guid: 1cad6b0cbb9509745abb4b2fb12dff17,
     type: 3}
   ProductLocations: []
   Products: []

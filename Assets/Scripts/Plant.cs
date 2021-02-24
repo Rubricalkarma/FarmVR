@@ -93,6 +93,7 @@ public class Plant : MonoBehaviour
 
     public enum PlantType
     {
-        Apple
+        Apple,
+        Pear
     }
 }
