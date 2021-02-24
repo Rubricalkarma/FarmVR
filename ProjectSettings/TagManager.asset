@@ -8,6 +8,8 @@ TagManager:
   - FxTemporaire
   - Farmland
   - Seed
+  - Product
+  - WateringCan
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,9 @@ public class Plant : MonoBehaviour
     public float GrowthRate;
     public bool IsGrown;
     public bool IsBeingWatered;
+    public bool HasProducts;
+    public float Cooldown;
+    public bool HadFirstGrow;
     public GameObject ProductPrefab;
     public List<Vector3> ProductLocations;
     public List<GameObject> Products;
@@ -20,17 +23,17 @@ public class Plant : MonoBehaviour
         GrowthStage = 1;
         MaxGrowthStage = 15;
         GrowthRate = .007f;
+        Cooldown = 10;
         IsGrown = false;
+        HadFirstGrow = false;
         IsBeingWatered = false;
+        HasProducts = false;
 
-        ProductLocations.Add(new Vector3(0, 0, .057f));
-        ProductLocations.Add(new Vector3(.04f, 0, .057f));
-        ProductLocations.Add(new Vector3(0, -0.02f, -0.0685f));
-        ProductLocations.Add(new Vector3(0.0264f, -0.0518f, -0.0685f));
-        ProductLocations.Add(new Vector3(0.0412f, 0.0208f, -0.0685f));
-
-
-        GrowProduct();
+        ProductLocations.Add(new Vector3(0, 0, .067f));
+        ProductLocations.Add(new Vector3(.04f, 0, .067f));
+        ProductLocations.Add(new Vector3(0, -0.02f, -0.0585f));
+        ProductLocations.Add(new Vector3(0.0264f, -0.0518f, -0.0585f));
+        ProductLocations.Add(new Vector3(0.0412f, 0.0208f, -0.0585f));
     }
 
     public void Update()
@@ -43,7 +46,12 @@ public class Plant : MonoBehaviour
                 IsGrown = true;
             }
             transform.localScale = new Vector3(GrowthStage, GrowthStage, GrowthStage);
-        }  
+        }
+        if(IsGrown && !HadFirstGrow)
+        {
+                HadFirstGrow = true;
+                GrowProduct();
+        }
     }
 
     public void GrowProduct()
@@ -55,6 +63,7 @@ public class Plant : MonoBehaviour
             product.transform.parent = gameObject.transform;
             product.transform.localPosition = location;
         }
+        HasProducts = true;
     }
 
     public void DropProducts()
@@ -63,6 +72,22 @@ public class Plant : MonoBehaviour
         {
             product.GetComponentInChildren<Rigidbody>().isKinematic = false;
         }
+        HasProducts = false;
+        Products.Clear();
+        StartCoroutine(SpawnProductTimer());
+    }
+
+    private IEnumerator SpawnProductTimer()
+    {
+        Debug.Log("Starting Spawn timer");
+        float time = 0;
+        while(time < Cooldown)
+        {
+            Debug.Log("Fruit dropping in " + (Cooldown - time));
+            yield return new WaitForSeconds(1);
+            time++;
+        }
+        GrowProduct();
     }
 
 
