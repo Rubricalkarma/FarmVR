@@ -5,6 +5,7 @@ using UnityEngine;
 public class Watering : MonoBehaviour
 {
     public Plant PlantScript;
+    public AudioSource WateringSound;
 
     public void Start()
     {
@@ -14,6 +15,8 @@ public class Watering : MonoBehaviour
     {
         if(other.tag == "WateringCan")
         {
+            WateringSound = other.GetComponent<AudioSource>();
+            WateringSound.Play();
             Debug.Log("Watering Can found!");
             PlantScript.IsBeingWatered = true;
         }
@@ -21,6 +24,11 @@ public class Watering : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        PlantScript.IsBeingWatered = false;
+        if (other.tag == "WateringCan")
+        {
+
+            WateringSound.Stop();
+            PlantScript.IsBeingWatered = false;
+        }
     }
 }

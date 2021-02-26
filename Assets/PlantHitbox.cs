@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlantHitbox : MonoBehaviour
 {
     public Plant PlantScript;
+    public AudioSource HitSound;
 
     public void Start()
     {
@@ -14,6 +15,7 @@ public class PlantHitbox : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            HitSound.Play();
             PlantScript.DropProducts();
         }
     }

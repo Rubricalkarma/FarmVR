@@ -13,6 +13,7 @@ public class Plant : MonoBehaviour
     public bool HasProducts;
     public float Cooldown;
     public bool HadFirstGrow;
+    public bool Growing;
     public GameObject ProductPrefab;
     public List<Vector3> ProductLocations;
     public List<GameObject> Products;
@@ -20,7 +21,7 @@ public class Plant : MonoBehaviour
 
     public void Start()
     {
-        GrowthStage = 1;
+        //GrowthStage = 1;
         MaxGrowthStage = 15;
         GrowthRate = .007f;
         Cooldown = 10;
@@ -28,6 +29,7 @@ public class Plant : MonoBehaviour
         HadFirstGrow = false;
         IsBeingWatered = false;
         HasProducts = false;
+        Growing = false;
 
         ProductLocations.Add(new Vector3(0, 0, .067f));
         ProductLocations.Add(new Vector3(.04f, 0, .067f));
@@ -41,21 +43,22 @@ public class Plant : MonoBehaviour
         if (IsBeingWatered && !IsGrown)
         {
             GrowthStage += GrowthRate;
-            if (GrowthStage >= MaxGrowthStage)
-            {
-                IsGrown = true;
-            }
             transform.localScale = new Vector3(GrowthStage, GrowthStage, GrowthStage);
         }
-        if(IsGrown && !HadFirstGrow)
+        if (GrowthStage >= MaxGrowthStage && !IsGrown)
         {
-                HadFirstGrow = true;
-                GrowProduct();
+            IsGrown = true;
+            GrowProduct();
         }
     }
 
     public void GrowProduct()
     {
+        if (Time.time > 3)
+        {
+            gameObject.GetComponent<AudioSource>().Play();
+        }
+        Growing = false;
         foreach (Vector3 location in ProductLocations) {
             var product = Instantiate(ProductPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             Products.Add(product);
@@ -68,6 +71,11 @@ public class Plant : MonoBehaviour
 
     public void DropProducts()
     {
+        if (Growing)
+        {
+            return;
+        }
+        Growing = true;
         foreach(GameObject product in Products)
         {
             product.GetComponentInChildren<Rigidbody>().isKinematic = false;

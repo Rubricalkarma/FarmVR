@@ -746,6 +746,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: cornCob01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e496806b85cc424cadec10dcab1a6e8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Product
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e496806b85cc424cadec10dcab1a6e8, type: 3}
 --- !u!1 &8304982431197396444 stripped

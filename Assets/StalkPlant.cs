@@ -12,15 +12,17 @@ public class StalkPlant : MonoBehaviour
     public bool IsBeingWatered;
     public bool HasProducts;
     public float Cooldown;
+    public bool Growing;
     public bool HadFirstGrow;
     public GameObject ProductPrefab;
     public List<Vector3> ProductLocations;
     public List<GameObject> Products;
+    public List<ProductPickUp> PickUpList;
 
 
     public void Start()
     {
-        GrowthStage = 1;
+        //GrowthStage = 1;
         MaxGrowthStage = 15;
         GrowthRate = .007f;
         Cooldown = 10;
@@ -28,6 +30,7 @@ public class StalkPlant : MonoBehaviour
         HadFirstGrow = false;
         IsBeingWatered = false;
         HasProducts = false;
+        Growing = false;
 
         ProductLocations.Add(new Vector3(.0284f, -.0262f, .0558f));
         ProductLocations.Add(new Vector3(.0284f, -.0686f, .0558f));
@@ -39,41 +42,51 @@ public class StalkPlant : MonoBehaviour
         if (IsBeingWatered && !IsGrown)
         {
             GrowthStage += GrowthRate;
-            if (GrowthStage >= MaxGrowthStage)
-            {
-                IsGrown = true;
-            }
             transform.localScale = new Vector3(GrowthStage, GrowthStage, GrowthStage);
         }
-        if (IsGrown && !HadFirstGrow)
+
+        if (GrowthStage >= MaxGrowthStage && !IsGrown)
         {
-            HadFirstGrow = true;
+            IsGrown = true;
             GrowProduct();
-        }     
+        }
+
+        if (CheckProducts() && !Growing && IsGrown)
+        {
+            Growing = true;
+            StartCoroutine(SpawnProductTimer());
+        }
+    }
+
+    public bool CheckProducts()
+    {
+        foreach(ProductPickUp x in PickUpList)
+        {
+            if (!x.HasBeenPicked)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void GrowProduct()
     {
+        if (Time.time > 3)
+        {
+            gameObject.GetComponent<AudioSource>().Play();
+        }
+        Growing = false;
+        PickUpList.Clear();
         foreach (Vector3 location in ProductLocations)
         {
             var product = Instantiate(ProductPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            Products.Add(product);
+            PickUpList.Add(product.GetComponentInChildren<ProductPickUp>());
             product.GetComponentInChildren<Rigidbody>().isKinematic = true;
             product.transform.parent = gameObject.transform;
             product.transform.localPosition = location;
         }
         HasProducts = true;
-    }
-
-    public void DropProducts()
-    {
-        foreach (GameObject product in Products)
-        {
-            product.GetComponentInChildren<Rigidbody>().isKinematic = false;
-        }
-        HasProducts = false;
-        Products.Clear();
-        StartCoroutine(SpawnProductTimer());
     }
 
     private IEnumerator SpawnProductTimer()
